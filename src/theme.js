@@ -193,8 +193,23 @@ export const themeSettings = (mode) => {
   };
 };
 
-
 //context for theme
-export const ColourModeContext= createContext({
-    toogleColourMode: () => {},
+export const ColourModeContext = createContext({
+  toogleColourMode: () => {},
 });
+
+export const useMode = () => {
+  const [mode, setMode] = useState("dark");
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColourMode: () =>
+        setMode((prev) => (prev === "light" ? "dark" : "light")),
+    }),
+    []
+  );
+
+  const theme = useMemo(() => createTheme(themeSettings(mode), [mode]));
+
+  return [theme, colorMode];
+};
